@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Inicio — Blog{% endblock %}
+{% block content %}
+  <h1>Posts publicados</h1>
+  {% if posts %}
+    {% for p in posts %}
+      <div class="card">
+        <h3><a href="{% url 'post_detalle' p.pk %}">{{ p.titulo }}</a></h3>
+        <p class="muted">
+          {{ p.autor.nombre }} ({{ p.autor.email }})
+          {% if p.categoria %} • {{ p.categoria.nombre }}{% endif %}
+          • {{ p.publicado_at|date:"d/m/Y H:i" }}
+        </p>
+        <p>{{ p.contenido|truncatechars:180 }}</p>
+        <a class="btn-outline" href="{% url 'post_detalle' p.pk %}">Leer</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No hay posts. Cargá uno desde “Nuevo Post”.</p>
+  {% endif %}
+{% endblock %}

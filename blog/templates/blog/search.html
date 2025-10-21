@@ -1,0 +1,25 @@
+﻿{% extends "base.html" %}
+{% block title %}Buscar{% endblock %}
+{% block content %}
+  <h1>Buscar posts</h1>
+  <form method="get">{{ form.as_p }}<button class="btn" type="submit">Buscar</button></form>
+
+  {% if query %}
+    <h3>Resultados para “{{ query }}”</h3>
+    {% if resultados %}
+      {% for p in resultados %}
+        <div class="card">
+          <h4><a href="{% url 'post_detalle' p.pk %}">{{ p.titulo }}</a></h4>
+          <p class="muted">
+            {{ p.autor.nombre }} ({{ p.autor.email }})
+            {% if p.categoria %} • {{ p.categoria.nombre }}{% endif %}
+            • {{ p.publicado_at|date:"d/m/Y H:i" }}
+          </p>
+          <p>{{ p.contenido|truncatechars:160 }}</p>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>Sin resultados.</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}
